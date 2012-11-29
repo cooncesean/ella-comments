@@ -12,6 +12,7 @@ from django.db import transaction
 from django.core.paginator import Paginator
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 
 from ella.core.views import get_templates_from_publishable
 from ella.core.custom_urls import resolver
@@ -295,6 +296,7 @@ class ListComments(CommentView):
             reverse = bool(int(data['reverse']))
         return page_no, paginate_by, reverse
 
+    @never_cache
     def __call__(self, request, context):
         templates = self.normal_templates
         if request.is_ajax():
